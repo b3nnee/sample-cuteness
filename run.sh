@@ -1,5 +1,11 @@
 #! /bin/bash
 
+
+npmresult=$(npm list-g | grep 'nativescript@');
+if [[ "$npmresult" == "" ]]; then
+    npm install -g nativescript
+fi
+
 unamestr=`uname`
 if [[ "$unamestr" == "Darwin" ]]; then
     iosresult=$(tns platform list | grep 'Installed platforms.*ios');
