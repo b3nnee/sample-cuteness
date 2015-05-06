@@ -11,13 +11,12 @@ var observable = require("data/observable");
 var imageCache = require("ui/image-cache");
 var redditViewModel = require("./reddit-item-view-model");
 var aboutText = "Cuteness is a proof of concept app demonstrating the Telerik's NativeScript for writing native mobile applications using JavaScript.";
-exports.defaultThumbnailImageSource = imageSource.fromFile("~/app/res/reddit-logo.png");
-exports.defaultNoThumbnailImageSource = imageSource.fromFile("~/app/res/no-image.png");
+exports.defaultThumbnailImageSource = imageSource.fromFile("~/res/reddit-logo.png");
+exports.defaultNoThumbnailImageSource = imageSource.fromFile("~/res/no-image.png");
 var redditUrl = "http://www.reddit.com/r/aww.json?limit=";
 var after;
 var ISSCROLLING = "isLoading";
 exports.cache = new imageCache.Cache();
-exports.cache.invalid = exports.defaultNoThumbnailImageSource;
 exports.cache.placeholder = exports.defaultThumbnailImageSource;
 exports.cache.maxRequests = 5;
 var AppViewModel = (function (_super) {
@@ -32,7 +31,7 @@ var AppViewModel = (function (_super) {
             if (!this._redditItems) {
                 this._redditItems = new virtualArray.VirtualArray(1000);
                 this._redditItems.loadSize = 50;
-                this._redditItems.on(virtualArray.knownEvents.itemsLoading, function (args) {
+                this._redditItems.on(virtualArray.VirtualArray.itemsLoadingEvent, function (args) {
                     http.getJSON(redditUrl + args.count + (after ? "&after=" + after : "")).then(function (result) {
                         var itemsToLoad = result.data.children.map(function (i) {
                             return new redditViewModel.RedditViewModel(i.data);
@@ -70,7 +69,7 @@ var AppViewModel = (function (_super) {
                 else {
                     exports.cache.enableDownload();
                 }
-                this.notify({ object: this, eventName: observable.knownEvents.propertyChange, propertyName: ISSCROLLING, value: value });
+                this.notify({ object: this, eventName: observable.Observable.propertyChangeEvent, propertyName: ISSCROLLING, value: value });
             }
         },
         enumerable: true,
