@@ -5,7 +5,7 @@ if [[ ! -d "./sample-cuteness" && "${gitresult}" != "" ]]; then
 # Cloning to default dir
     echo "=> Downloading sample-cuteness from git"
     printf "\r=> "
-    command git clone "git@github.com:NativeScript/sample-cuteness.git"
+    command git clone "https://github.com/NativeScript/sample-cuteness.git"
     cd sample-cuteness
 fi
 
